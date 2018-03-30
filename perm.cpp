@@ -25,13 +25,19 @@ void spin( vector<char> &NewList, int newFront ){
     
     // push chars onto temp vector
     for( int i=0; i<Temp.size(); ++i ){  
-        cout<<Temp[i]<<endl;
+        cout<<"temp "<<Temp[i]<<endl;
     }
     
     // shift char remaining char to front
     for( int i=newFront; i<NewList.size(); ++i ){
-        NewList[i] = NewList[i-newFront];
+        NewList[i-newFront] = NewList[i];
     }
+    // overwrite Temp char back on to end of newList vector
+    for( int i=NewList.size()-newFront; i<NewList.size(); ++i ){
+        NewList[i] = Temp [i-(NewList.size()-newFront)]; //0++
+
+    }
+
 }
 
 
@@ -55,7 +61,9 @@ int main(int argc, char** argv){
     for( int i=0; i<OGList.length(); ++i ){
         NewList.push_back( OGList[i] );
     }
-
+    for( int i=0; i<NewList.size(); ++i) {
+        cout<<"NewList "<<NewList[i]<<endl;
+    }
     getline( inFile, opps );
     cout<<"OPPS LIST "<<opps<<endl;
     for( int i=0; i<opps.length(); ++i ){
@@ -69,8 +77,11 @@ int main(int argc, char** argv){
             stringstream str;
             str << opps[i];
             int newFront;
-            str >> newFront;
+            str >> newFront; 
             spin( NewList, newFront );
+            for( int i=0; i<NewList.size(); ++i ){
+                cout<< NewList[i] << endl;
+            }
             cout<<"new i counter at: "<<i<<endl;
         }
     }
