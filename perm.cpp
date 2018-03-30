@@ -7,23 +7,29 @@
 
 using namespace std;
 
+int convertToInt( char chr ){ 
+    stringstream str;
+    str << chr;
+    int newFront;
+    str >> newFront;
+    return newFront;
+}
 
 void spin( vector<char> &NewList, int newFront ){
     // handle invalid spin sN s.t. N>OGList.length()
-     
-    cout<<" opps ascii in spin "<<newFront<<endl;
-    cout<< newFront;
     if( newFront > NewList.size()-1 || newFront < 0 ){
         cout<<" Spin called on invalid operand: S"<<newFront<<endl;
         exit( EXIT_FAILURE );
     }
+    
     cout<<"spin: "<<newFront<<endl;
+    
+    // push chars onto temp vector
     vector<char> Temp; 
     for( int i=0; i<newFront; ++i ){
         Temp.push_back( NewList[i] ); 
     }
-    
-    // push chars onto temp vector
+    // print temp  
     for( int i=0; i<Temp.size(); ++i ){  
         cout<<"temp "<<Temp[i]<<endl;
     }
@@ -40,6 +46,11 @@ void spin( vector<char> &NewList, int newFront ){
 
 }
 
+void exchange( vector<char> &NewList, int aPos, int bPos ){
+    char temp = NewList[ aPos ];
+    NewList[ aPos ] = NewList[ bPos ];
+    NewList[ bPos ] = temp;
+}
 
 int main(int argc, char** argv){
     // cmndln args error handling
@@ -67,22 +78,36 @@ int main(int argc, char** argv){
     getline( inFile, opps );
     cout<<"OPPS LIST "<<opps<<endl;
     for( int i=0; i<opps.length(); ++i ){
+        // parse 's' for spin
         // this will fail on double digit
         if( opps[i] == 's' ){
             cout<<"s found: "<<i<<endl;
             ++i;
             // TODO: get has_second_digit 
             cout<<" opps ascii "<<opps[i]<<endl;
-            // convert ascii to int
-            stringstream str;
-            str << opps[i];
-            int newFront;
-            str >> newFront; 
+            int newFront = convertToInt( opps[i] );
             spin( NewList, newFront );
             for( int i=0; i<NewList.size(); ++i ){
-                cout<< NewList[i] << endl;
+                cout<< NewList[i];
             }
-            cout<<"new i counter at: "<<i<<endl;
+            cout<<"\nnew i counter at: "<<i<<endl;
+        }
+        // parse 'x' for exchange
+        if( opps[i] == 'x' ){
+            cout<<"exchange mode called on ";
+            ++i;
+            int aPos = convertToInt( opps[i] );
+            cout<<opps[i]<<" and ";
+            ++i; ++i;
+            int bPos = convertToInt( opps[i] );
+            cout<<opps[i]<<endl;
+            exchange( NewList, aPos, bPos );
+            // print exchange for debugging purposes
+            cout<<"post exchange "<<endl;
+            for( int i=0; i<NewList.size(); ++i ){
+                cout<<NewList[i];
+            }
+            cout<<endl;
         }
     }
 
