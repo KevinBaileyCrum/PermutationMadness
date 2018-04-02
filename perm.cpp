@@ -124,6 +124,16 @@ int main(int argc, char** argv){
             }
             cout<<endl;
         }
+        // parse 'p' for partner
+        if( opps[i] == 'p' ){
+            cout<<"partner found on ";
+            ++i;
+            int aPos = convertToInt( opps[i] );
+            cout<<opps[i]<<" and ";
+            ++i; ++i;
+            int bPos = convertToInt( opps[i] );
+            cout<<opps[i]<<endl;
+        }
     }
 
     return 0;
