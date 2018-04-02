@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <algorithm> 
 
 using namespace std;
 
@@ -21,29 +22,43 @@ void spin( vector<char> &NewList, int newFront ){
         cout<<" Spin called on invalid operand: S"<<newFront<<endl;
         exit( EXIT_FAILURE );
     }
-    
-    cout<<"spin: "<<newFront<<endl;
-    
-    // push chars onto temp vector
-    vector<char> Temp; 
-    for( int i=0; i<newFront; ++i ){
-        Temp.push_back( NewList[i] ); 
-    }
-    // print temp  
-    for( int i=0; i<Temp.size(); ++i ){  
-        cout<<"temp "<<Temp[i]<<endl;
+    if( newFront == 0) { // do nothing
+        return;
     }
     
-    // shift char remaining char to front
-    for( int i=newFront; i<NewList.size(); ++i ){
-        NewList[i-newFront] = NewList[i];
+    cout<<"spin: on "<<newFront<<endl;
+    for( int i=0; i<NewList.size(); ++i ){
+        cout<<NewList[i];
     }
-    // overwrite Temp char back on to end of newList vector
+    cout<<endl;
+    
+    // push char onto temp vector
+    vector<char> temp;
     for( int i=NewList.size()-newFront; i<NewList.size(); ++i ){
-        NewList[i] = Temp [i-(NewList.size()-newFront)]; //0++
+        temp.push_back( NewList[i] );
+    }
+    
+    cout<<"temp"<<endl;
+    for( int i=0; i<temp.size(); ++i ){
+        cout<<temp[i];
+    }
+    cout<<endl;
+    
+    // shift NewList char by |newFront|
+    for( int i=NewList.size()-newFront; i>=0; --i ){
+        NewList[ i+newFront ] = NewList[i];
+    }   
 
+    // place temp char back on front
+    for( int i=0; i<temp.size(); ++i ){
+        NewList[i] = temp[i];
     }
 
+    cout<<"post tate"<<endl;
+    for( int i=0; i<NewList.size(); ++i ){
+        cout<<NewList[i];
+    }
+    cout<<endl;
 }
 
 void exchange( vector<char> &NewList, int aPos, int bPos ){
